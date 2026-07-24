@@ -1,6 +1,15 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-function userProfileCard({ user }) {
+const userData = {
+  name: "Elmer Alvarado",
+  avatarUrl: "https://i.pravatar.cc/100",
+  bio: "Appdev1 instructor.",
+  skills: ["React", "JavaScript", "HTML", "CSS"],
+  isOnline: true,
+  lastUpdated: "2 hours ago",
+};
+
+function UserProfileCard({ user = userData }) {
   const [messageCount, setMessageCount] = useState(0);
 
   function handleSendMessage() {
@@ -8,40 +17,40 @@ function userProfileCard({ user }) {
   }
 
   function handleReset() {
-    messageCount = 0;
+    setMessageCount(0);
   }
 
   return (
-    <div class="profile-card">
-      <img src={user.avatarUrl}>
+    <>
+      <div className="profile-card">
+        <img src={user.avatarUrl} alt={user.name} />
+        <h2>{user.name}</h2>
 
-      <h2>{user.name}</h2>
+        <label htmlFor="bio">Bio</label>
+        <p id="bio">{user.bio}</p>
 
-      <label for="bio">Bio</label>
-      <p id="bio">{user.bio}</p>
+        <h3>Skills</h3>
+        <ul>
+          {user.skills.map((skill, index) => (
+            <li key={index}>{skill}</li>
+          ))}
+        </ul>
 
-      <h3>Skills</h3>
-      <ul>
-        {user.skills.map(skill => (
-          <li>{skill}</li>
-        ))}
-      </ul>
+        <div style={{ color: 'blue', fontWeight: 'bold' }}>
+          Messages sent: {messageCount}
+        </div>
 
-      <div style="color: blue; font-weight: bold;">
-        Messages sent: {messageCount}
+        {user.isOnline ? <span>🟢 Online</span> : <span>⚪ Offline</span>}
+
+        <br />
+
+        <button onClick={handleSendMessage}>Send Message</button>
+        <button onClick={handleReset}>Reset</button>
       </div>
 
-      {if (user.isOnline) {
-        <span>🟢 Online</span>
-      } else {
-        <span>⚪ Offline</span>
-      }}
-
-      <button onClick={handleSendMessage()}>Send Message</button>
-      <button onClick={handleReset()}>Reset</button>
-    </div>
-    <p className="footer">Card last updated: {user.lastUpdated}</p>
+      <p className="footer">Card last updated: {user.lastUpdated}</p>
+    </>
   );
 }
 
-export default userProfileCard;
+export default UserProfileCard;
