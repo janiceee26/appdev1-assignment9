@@ -8,9 +8,37 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
-      .profile-card { border: 1px solid #ccc; padding: 15px; border-radius: 8px; width: 250px; font-family: sans-serif; background: #fff; color: #333; }
-      .profile-card img { width: 100px; height: 100px; border-radius: 50%; }
-      button { margin: 5px 2px; padding: 5px 10px; cursor: pointer; }
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background-color: #f4f4f9;
+      }
+      .profile-card {
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 10px;
+        width: 280px;
+        background: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .profile-card img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      button {
+        margin: 5px 4px 5px 0;
+        padding: 6px 12px;
+        cursor: pointer;
+        border-radius: 4px;
+        border: 1px solid #999;
+      }
+      .footer {
+        font-size: 12px;
+        color: #666;
+        margin-top: 10px;
+      }
     </style>
   </head>
   <body>
@@ -20,16 +48,17 @@
       const { useState } = React;
 
       const userData = {
-        name: "Elmer Alvarado",
-        avatarUrl: "https://i.pravatar.cc/100",
-        bio: "Appdev1 instructor.",
-        skills: ["React", "JavaScript", "HTML", "CSS"],
+        name: "Janice V. Agnote",
+        avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
+        bio: "Appdev1 student.",
+        skills: ["Problem Solving", "Coffee Drinking", "Debugging", "Procrastination"],
         isOnline: true,
-        lastUpdated: "2 hours ago",
+        lastUpdated: "1 minute ago",
       };
 
       function UserProfileCard({ user = userData }) {
         const [messageCount, setMessageCount] = useState(0);
+        const [isFavorited, setIsFavorited] = useState(false);
 
         function handleSendMessage() {
           setMessageCount(messageCount + 1);
@@ -37,6 +66,10 @@
 
         function handleReset() {
           setMessageCount(0);
+        }
+
+        function handleToggleFavorite() {
+          setIsFavorited((prev) => !prev);
         }
 
         return (
@@ -59,9 +92,13 @@
                 Messages sent: {messageCount}
               </div>
 
-              {user.isOnline ? <span>🟢 Online</span> : <span>⚪ Offline</span>}
+              {user.isOnline ? <span>🟢 Online </span> : <span>⚪ Offline </span>}
 
-              <br />
+              {user.isOnline && (
+                <button onClick={handleToggleFavorite}>
+                  {isFavorited ? "★ Favorited" : "☆ Favorite"}
+                </button>
+              )}
 
               <button onClick={handleSendMessage}>Send Message</button>
               <button onClick={handleReset}>Reset</button>
